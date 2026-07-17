@@ -22,15 +22,6 @@ class InvoiceClassifier:
         self.model = model
 
     def classify(self, pdf_text: str, max_retries: int = 5) -> dict:
-        """
-        Warum eigene Retry-Logik zusätzlich zum SDK-internen Retry?
-        Die Anthropic API kann kurzzeitig überlastet sein (Error 529
-        "overloaded_error") - das ist kein Bug im eigenen Code, sondern ein
-        temporärer Serverzustand. Das SDK retried das zwar schon 2x automatisch,
-        bei anhaltender Überlast reicht das aber nicht immer. Deshalb hier ein
-        zusätzlicher Retry mit exponentiellem Backoff (1s, 2s, 4s, 8s, 16s) -
-        ein Standardmuster für robuste AI-Agenten, die von externen APIs abhängen.
-        """
         last_error = None
         for attempt in range(max_retries):
             try:
