@@ -1,0 +1,4 @@
+.env
+.env.example
+rechnungen/
+invoices_log.csv
