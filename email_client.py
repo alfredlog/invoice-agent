@@ -62,7 +62,8 @@ class EmailClient:
 
         results = []
         for num in data[0].split():
-            status, msg_data = self._conn.fetch(num, "(RFC822)")
+            # BODY.PEEK[] lädt die Mail, ohne sie als "gelesen" zu markieren
+            status, msg_data = self._conn.fetch(num, "(BODY.PEEK[])")
             if status != "OK":
                 continue
             msg = email.message_from_bytes(msg_data[0][1])
